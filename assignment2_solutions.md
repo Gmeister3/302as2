@@ -398,7 +398,7 @@ S(n) ≤ m³ ≈ (2n/3)³ = 8n³/27 ≈ 0.296n³ < n³/3 ≈ 0.333n³ ✓
 
 If Sam answers "Yes/No" to questions "Is the number x?":
 
-**Answer:** You will need at most **n questions** in the worst case.
+**Answer:** You will need at most **n-1 questions** in the worst case.
 
 **Explanation:**
 
@@ -407,11 +407,10 @@ Since Sam can change his answer as long as he doesn't contradict previous answer
 With "Yes/No" questions:
 - Each "No" answer eliminates only one number from consideration
 - Sam can keep changing his mind to whichever number you haven't asked about yet
-- In the worst case, you need to ask about n-1 numbers before the last remaining number must be the answer
+- After asking about n-1 numbers and getting "No" each time, only one number remains
+- This last number must be the answer (no need to ask about it)
 
-Therefore, **n-1 questions** are needed in the worst case, but you might need to ask about the last number to confirm, making it **n questions** total.
-
-Actually, more precisely: **n-1 questions** are sufficient, because after eliminating n-1 numbers, only one possibility remains.
+Therefore, **n-1 questions** are sufficient and necessary in the worst case.
 
 ### Question 2: Can We Improve with Different Sequence?
 
