@@ -275,6 +275,13 @@ More precisely: **T(n) = Θ(n^(log(3)/log(3/2)))**
 
 Base case: T(2) = 1 ✓
 
+To verify this matches our formula, we need c such that:
+```
+c · 2^(log(3)/log(3/2)) = 1
+```
+
+This confirms our base case is consistent.
+
 Inductive hypothesis: Assume T(k) = c·k^(log(3)/log(3/2)) for all k < n.
 
 Inductive step:
@@ -306,8 +313,12 @@ Let S(n) be the maximum number of swaps for an array of size n in the worst case
 **Key Observation:** The number of swaps follows the same recurrence structure as comparisons.
 
 **Base cases:**
-- S(1) = 0 ≤ 1³/3
-- S(2) ≤ 1 ≤ 8/3 ≈ 2.67 ✓
+- S(1) = 0 (no swaps for a single element)
+- S(2) ≤ 1 (at most one swap when A[0] > A[1])
+
+Checking against n³/3:
+- S(1) = 0 ≤ 1³/3 = 0.333 ✓
+- S(2) = 1 ≤ 2³/3 = 8/3 ≈ 2.67 ✓ ≈ 2.67 ✓
 
 **Recursive case (n > 2):**
 
@@ -341,7 +352,9 @@ For small values of n, we verify directly with the induction proof below.
 
 We'll prove S(n) ≤ n³/3 by strong induction.
 
-Base: S(1) = 0 ≤ 1/3 ✓ and S(2) = 1 ≤ 8/3 ✓
+Base cases:
+- S(1) = 0 ≤ 1³/3 = 1/3 ✓
+- S(2) = 1 ≤ 2³/3 = 8/3 ✓ (one swap occurs when A[0] > A[1])
 
 Hypothesis: Assume S(k) ≤ k³/3 for all k < n.
 
