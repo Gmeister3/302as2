@@ -267,9 +267,9 @@ Also, k = log_{3/2}(n/2), so:
 
 Since log(3)/log(3/2) = log(3)/(log(3)-log(2)) ≈ 2.71
 
-Therefore: **T(n) = Θ(n^(log₃/₂(3))) = Θ(n^2.71)**
+Therefore: **T(n) = Θ(n^(log₃/₂(3))) ≈ Θ(n^2.71)**
 
-More precisely: **T(n) = Θ(n^(log(3)/log(3/2)))**
+More precisely: **T(n) = Θ(n^(log(3)/log(3/2)))** where log(3)/log(3/2) ≈ 2.7095
 
 **Proof by Induction:**
 
@@ -344,9 +344,9 @@ Since S(n) = Θ(n^2.71), we need to verify that n^2.71 < n³/3 for all n ≥ 1.
 
 This is equivalent to showing: 3n^2.71 < n³, which simplifies to 3 < n^(3-2.71) = n^0.29.
 
-For n ≥ 31: 31^0.29 ≈ 3.00, so for all n ≥ 31, we have n^0.29 > 3, thus n^2.71 < n³/3.
+Solving n^0.29 = 3: n = 3^(1/0.29) ≈ 31. Thus for n ≥ 31, we have n^0.29 > 3, ensuring n^2.71 < n³/3.
 
-For small values of n, we verify directly with the induction proof below.
+For small values of n (n < 31), we verify the bound directly with the induction proof below.
 
 **Proof by Induction:**
 
