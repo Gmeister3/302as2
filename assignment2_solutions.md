@@ -318,7 +318,7 @@ Let S(n) be the maximum number of swaps for an array of size n in the worst case
 
 Checking against n³/3:
 - S(1) = 0 ≤ 1³/3 = 0.333 ✓
-- S(2) = 1 ≤ 2³/3 = 8/3 ≈ 2.67 ✓ ≈ 2.67 ✓
+- S(2) = 1 ≤ 2³/3 = 8/3 ≈ 2.67 ✓
 
 **Recursive case (n > 2):**
 
