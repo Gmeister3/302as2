@@ -448,18 +448,17 @@ T(n) = T(n/2) + cn
      = T(n/4) + c(n/2) + cn
      = T(n/8) + c(n/4) + c(n/2) + cn
      = ...
-     = T(1) + cn(2^(-(log₂ n - 1)) + ... + 1/4 + 1/2 + 1)
-     = Θ(1) + cn(1 + 1/2 + 1/4 + ... + 2^(-(log₂ n - 1)))
+     = T(1) + cn(1/2 + 1/4 + 1/8 + ...)
 ```
 
-The geometric series sums to:
+The geometric series (1/2 + 1/4 + 1/8 + ...) converges to 1:
 ```
-1 + 1/2 + 1/4 + ... = 2
+1/2 + 1/4 + 1/8 + ... = 1
 ```
 
 Therefore:
 ```
-T(n) = Θ(1) + 2cn = Θ(n)
+T(n) = Θ(1) + cn = Θ(n)
 ```
 
 **Proof by Induction:**
@@ -590,11 +589,14 @@ QuickSelect is used in:
 **Example: Finding the Median**
 
 To find the median of an array of size n:
-- If n is odd: Find the (n+1)/2-th smallest element
-- If n is even: Find both the n/2-th and (n/2+1)-th smallest elements
+- If n is odd: median = QUICKSELECT(A, 0, n-1, (n+1)/2)
+- If n is even: You may want both middle elements or just one
+  - Lower median = QUICKSELECT(A, 0, n-1, n/2)
+  - Upper median = QUICKSELECT(A, 0, n-1, n/2 + 1)
 
+For a simple median (odd or even):
 ```
-median = QUICKSELECT(A, 0, n-1, ⌈n/2⌉)
+median = QUICKSELECT(A, 0, n-1, (n+1)/2)  // Works for both odd and even n
 ```
 
 This is much faster than sorting the entire array: Θ(n) vs. Θ(n log n).
