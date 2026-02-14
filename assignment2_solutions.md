@@ -426,23 +426,18 @@ Let T(n) be the expected number of comparisons for an array of size n.
 
 In the average case:
 - The partition operation takes Θ(n) comparisons
-- We only recurse on one side (unlike QuickSort which recurses on both)
-- On average, the pivot splits the array into subarrays of size n/2
+- We only recurse on one side (unlike QuickSort which recurses on both sides)
+- The key insight is that we recurse into whichever subarray contains the k-th element
+- On average, assuming the pivot is equally likely to be any element, we recurse into a subarray of expected size n/2
+
+For simplification, we use the average case where the pivot divides the array roughly in half:
 
 ```
 T(n) = T(n/2) + Θ(n)
 T(1) = Θ(1)
 ```
 
-More precisely, considering all possible pivot positions with equal probability:
-```
-T(n) = (1/n) * Σ(max(T(i-1), T(n-i))) + Θ(n)  for i = 1 to n
-```
-
-However, we only recurse into ONE subarray (the one containing the k-th element), so:
-```
-T(n) = (1/n) * Σ T(i) + Θ(n)  for i = 1 to n (considering only the larger subarray)
-```
+**Note:** The more precise analysis considers that we recurse into the subarray containing the k-th element. In the average case, the expected size of this subarray is approximately n/2.
 
 **Solving the Recurrence:**
 
@@ -453,8 +448,8 @@ T(n) = T(n/2) + cn
      = T(n/4) + c(n/2) + cn
      = T(n/8) + c(n/4) + c(n/2) + cn
      = ...
-     = T(1) + cn(1/2^(log n - 1) + ... + 1/4 + 1/2 + 1)
-     = Θ(1) + cn(1 + 1/2 + 1/4 + ... + 1/2^(log n))
+     = T(1) + cn(2^(-(log₂ n - 1)) + ... + 1/4 + 1/2 + 1)
+     = Θ(1) + cn(1 + 1/2 + 1/4 + ... + 2^(-(log₂ n - 1)))
 ```
 
 The geometric series sums to:
