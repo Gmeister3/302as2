@@ -451,9 +451,9 @@ T(n) = T(n/2) + cn
      = T(1) + cn(1/2 + 1/4 + 1/8 + ...)
 ```
 
-The geometric series (1/2 + 1/4 + 1/8 + ...) converges to 1:
+The geometric series (1/2 + 1/4 + 1/8 + ...) converges to:
 ```
-1/2 + 1/4 + 1/8 + ... = 1
+Sum = (1/2)/(1 - 1/2) = (1/2)/(1/2) = 1
 ```
 
 Therefore:
@@ -588,15 +588,25 @@ QuickSelect is used in:
 
 **Example: Finding the Median**
 
-To find the median of an array of size n:
-- If n is odd: median = QUICKSELECT(A, 0, n-1, (n+1)/2)
+To find the median of an array A[0...n-1] of size n (0-based indexing):
+- If n is odd: median is at position n/2 (integer division)
+  - Example: n=5, median at index 2 → QUICKSELECT(A, 0, 4, 3) [3rd smallest]
 - If n is even: You may want both middle elements or just one
-  - Lower median = QUICKSELECT(A, 0, n-1, n/2)
-  - Upper median = QUICKSELECT(A, 0, n-1, n/2 + 1)
+  - Lower median at position (n/2 - 1) → QUICKSELECT(A, 0, n-1, n/2)
+  - Upper median at position n/2 → QUICKSELECT(A, 0, n-1, n/2 + 1)
+  - Example: n=6, lower median at index 2, upper at index 3
 
-For a simple median (odd or even):
+For a simple median using 1-based rank k:
 ```
-median = QUICKSELECT(A, 0, n-1, (n+1)/2)  // Works for both odd and even n
+// For odd n, k = (n+1)/2 gives the middle element
+// For even n, k = (n+1)/2 gives the lower middle element (rounded up)
+median = QUICKSELECT(A, 0, n-1, (n+1)/2)
+```
+
+Or using 0-based index directly:
+```
+// For any n, finds the element at index ⌊n/2⌋
+median = QUICKSELECT(A, 0, n-1, n/2 + 1)  // k is 1-based rank
 ```
 
 This is much faster than sorting the entire array: Θ(n) vs. Θ(n log n).
