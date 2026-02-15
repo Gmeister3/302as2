@@ -9,11 +9,11 @@
 
 This submission contains complete solutions for:
 - **Q1**: Non-recursive Tower of Hanoi (All parts)
-- **Q2**: StoogeSort Algorithm Analysis (All parts)  
+- **Q2**: StoogeSort Algorithm Analysis (All parts)
+- **Q3**: Bonus Question - QuickSelect (Complete analysis with proofs)
 - **Q4**: Searching Lower and Upper Bounds (All parts)
 
 **Not included:**
-- **Q3**: Bonus Question - QuickSelect (Skipped as per instructions)
 - **Q5**: Convex Hull Implementation (Skipped as the last question per instructions)
 
 ---
@@ -383,7 +383,242 @@ S(n) ≤ m³ ≈ (2n/3)³ = 8n³/27 < n³/3 ✓
 
 ## Q3. Bonus Question - QuickSelect
 
-**(SKIPPED as per assignment instructions - this is the bonus question)**
+### Algorithm Description
+
+**QuickSelect** is a selection algorithm to find the k-th smallest element in an unordered list. It is related to the QuickSort sorting algorithm and was developed by Tony Hoare.
+
+**QUICKSELECT(A, p, r, k):**
+```
+Input: Array A, indices p and r (p ≤ r), and rank k (1 ≤ k ≤ r-p+1)
+Output: The k-th smallest element in A[p...r]
+
+1. if p == r then
+2.     return A[p]
+3. q = PARTITION(A, p, r)          // Partition around pivot
+4. rank = q - p + 1                 // Rank of pivot in subarray
+5. if k == rank then
+6.     return A[q]                  // Pivot is the k-th smallest
+7. else if k < rank then
+8.     return QUICKSELECT(A, p, q-1, k)      // Search left
+9. else
+10.    return QUICKSELECT(A, q+1, r, k-rank)  // Search right
+```
+
+**PARTITION(A, p, r):**
+```
+1. x = A[r]                         // Pivot element
+2. i = p - 1
+3. for j = p to r-1 do
+4.     if A[j] ≤ x then
+5.         i = i + 1
+6.         swap A[i] with A[j]
+7. swap A[i+1] with A[r]
+8. return i+1
+```
+
+### Question 1: Average-Case Time Complexity
+
+**Answer:** The average-case time complexity of QuickSelect is **Θ(n)**.
+
+**Recurrence Relation (Average Case):**
+
+Let T(n) be the expected number of comparisons for an array of size n.
+
+In the average case:
+- The partition operation takes Θ(n) comparisons
+- We only recurse on one side (unlike QuickSort which recurses on both sides)
+- The key insight is that we recurse into whichever subarray contains the k-th element
+- On average, assuming the pivot is equally likely to be any element, we recurse into a subarray of expected size n/2
+
+For simplification, we use the average case where the pivot divides the array roughly in half:
+
+```
+T(n) = T(n/2) + Θ(n)
+T(1) = Θ(1)
+```
+
+**Note:** The more precise analysis considers that we recurse into the subarray containing the k-th element. In the average case, the expected size of this subarray is approximately n/2.
+
+**Solving the Recurrence:**
+
+Using the recurrence T(n) = T(n/2) + cn where c is a constant:
+
+```
+T(n) = T(n/2) + cn
+     = T(n/4) + c(n/2) + cn
+     = T(n/8) + c(n/4) + c(n/2) + cn
+     = ...
+     = T(1) + cn(1/2 + 1/4 + 1/8 + ...)
+```
+
+The geometric series (1/2 + 1/4 + 1/8 + ...) converges to:
+```
+Sum = (1/2)/(1 - 1/2) = (1/2)/(1/2) = 1
+```
+
+Therefore:
+```
+T(n) = Θ(1) + cn = Θ(n)
+```
+
+**Proof by Induction:**
+
+We'll prove T(n) ≤ cn for some constant c > 0.
+
+Base case: T(1) ≤ c·1 for sufficiently large c. ✓
+
+Inductive hypothesis: Assume T(k) ≤ ck for all k < n.
+
+Inductive step: For n > 1,
+```
+T(n) = T(n/2) + an        (where a is the partition constant)
+     ≤ c(n/2) + an        (by hypothesis)
+     = n(c/2 + a)
+     ≤ cn                 (when c ≥ 2a)
+```
+
+Therefore, **T(n) = Θ(n)** in the average case. ✓
+
+### Question 2: Worst-Case Time Complexity
+
+**Answer:** The worst-case time complexity of QuickSelect is **Θ(n²)**.
+
+**Recurrence Relation (Worst Case):**
+
+The worst case occurs when the pivot is always the smallest or largest element, resulting in maximally unbalanced partitions:
+
+```
+T(n) = T(n-1) + Θ(n)
+T(1) = Θ(1)
+```
+
+**Solving the Recurrence:**
+
+```
+T(n) = T(n-1) + cn
+     = T(n-2) + c(n-1) + cn
+     = T(n-3) + c(n-2) + c(n-1) + cn
+     = ...
+     = T(1) + c(2 + 3 + ... + (n-1) + n)
+     = Θ(1) + c · n(n+1)/2 - c
+     = Θ(n²)
+```
+
+**Example:**
+For array [1,2,3,4,5] finding the 5th smallest (maximum):
+- With always choosing the last element as pivot
+- First partition: n comparisons, recurse on n-1 elements
+- Second partition: n-1 comparisons, recurse on n-2 elements
+- Continue until 1 element remains
+- Total: n + (n-1) + (n-2) + ... + 2 + 1 = n(n+1)/2 = Θ(n²)
+
+Therefore, **T(n) = Θ(n²)** in the worst case. ✓
+
+### Question 3: Comparison with Other Selection Algorithms
+
+**QuickSelect vs. Sorting-based Selection:**
+
+| Aspect | QuickSelect | Sort + Index |
+|--------|------------|--------------|
+| Average Time | Θ(n) | Θ(n log n) |
+| Worst Time | Θ(n²) | Θ(n log n) or Θ(n²) |
+| Space | Θ(log n) | Θ(1) to Θ(n) |
+| In-place | Yes (with partition) | Depends on sort |
+| Modifies array | Yes | Yes |
+
+QuickSelect is **faster on average** than sorting when you only need one element.
+
+**QuickSelect vs. Median-of-Medians:**
+
+The Median-of-Medians algorithm guarantees Θ(n) worst-case time but with a larger constant factor:
+
+| Algorithm | Average Case | Worst Case | Practical Performance |
+|-----------|--------------|------------|----------------------|
+| QuickSelect | Θ(n) | Θ(n²) | Fast (low constant) |
+| Median-of-Medians | Θ(n) | Θ(n) | Slower (high constant) |
+| Randomized QuickSelect | Θ(n) expected | Θ(n²) worst | Fast (expected) |
+
+**Key Insight:** While QuickSelect has a quadratic worst case, it performs excellently in practice because:
+1. The average case is linear
+2. The constant factors are small
+3. Randomization can make worst case extremely unlikely
+
+### Question 4: Optimizations and Variants
+
+**Randomized QuickSelect:**
+
+Choose the pivot randomly instead of always choosing the last element:
+
+```
+RANDOMIZED-PARTITION(A, p, r):
+1. i = RANDOM(p, r)
+2. swap A[i] with A[r]
+3. return PARTITION(A, p, r)
+```
+
+This gives **expected Θ(n)** time complexity and makes the worst case extremely unlikely.
+
+**Iterative QuickSelect:**
+
+To reduce space complexity from Θ(log n) to Θ(1), use an iterative version:
+
+```
+ITERATIVE-QUICKSELECT(A, p, r, k):
+1. while p < r do
+2.     q = PARTITION(A, p, r)
+3.     rank = q - p + 1
+4.     if k == rank then
+5.         return A[q]
+6.     else if k < rank then
+7.         r = q - 1
+8.     else
+9.         k = k - rank
+10.        p = q + 1
+11. return A[p]
+```
+
+### Question 5: Practical Applications
+
+QuickSelect is used in:
+1. **Finding medians** for statistical analysis
+2. **Computing percentiles** in data analysis
+3. **Selecting top-k elements** in recommendation systems
+4. **Pivot selection** in QuickSort optimizations
+5. **Database query optimization** for ORDER BY ... LIMIT queries
+
+**Example: Finding the Median**
+
+To find the median of an array A[0...n-1] of size n (0-based indexing):
+- If n is odd: median is at position n/2 (integer division)
+  - Example: n=5, median at index 2 → QUICKSELECT(A, 0, 4, 3) [3rd smallest]
+- If n is even: You may want both middle elements or just one
+  - Lower median at position (n/2 - 1) → QUICKSELECT(A, 0, n-1, n/2)
+  - Upper median at position n/2 → QUICKSELECT(A, 0, n-1, n/2 + 1)
+  - Example: n=6, lower median at index 2, upper at index 3
+
+For a simple median using 1-based rank k:
+```
+// For odd n, k = (n+1)/2 gives the middle element
+// For even n, k = (n+1)/2 gives the lower middle element (rounded up)
+median = QUICKSELECT(A, 0, n-1, (n+1)/2)
+```
+
+Or using 0-based index directly:
+```
+// For any n, finds the element at index ⌊n/2⌋
+median = QUICKSELECT(A, 0, n-1, n/2 + 1)  // k is 1-based rank
+```
+
+This is much faster than sorting the entire array: Θ(n) vs. Θ(n log n).
+
+### Summary
+
+QuickSelect is an efficient selection algorithm that:
+- Achieves **Θ(n) average-case** time complexity
+- Has **Θ(n²) worst-case** time complexity
+- Outperforms sorting-based approaches for single element selection
+- Can be optimized with randomization to achieve expected linear time
+- Is widely used in practice due to its simplicity and efficiency
 
 ---
 
@@ -464,5 +699,7 @@ This is significantly better than the n-1 = 999,999 questions needed with "Yes/N
 
 ## Summary
 
-This document contains solutions to Questions 1, 2, and 4 of Assignment 2. Question 3 (Bonus) and Question 5 (Convex Hull) were skipped as per the assignment instructions.
+This document contains solutions to Questions 1, 2, 3 (Bonus), and 4 of Assignment 2. Question 5 (Convex Hull) was skipped as the last question per the assignment instructions.
+
+The bonus question (Q3) provides a comprehensive analysis of the QuickSelect algorithm, including average-case and worst-case complexity analysis, recurrence relations, proofs, and comparisons with other selection algorithms.
 
