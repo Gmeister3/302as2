@@ -33,3 +33,6 @@ Thumbs.db
 *.ind
 *.lof
 *.lot
+
+# Generated output files
+outputs/
