@@ -1,6 +1,9 @@
 # Java compiled files
 *.class
 
+# Output directories
+7561517_java/outputs/
+
 # Python cache
 __pycache__/
 *.py[cod]
