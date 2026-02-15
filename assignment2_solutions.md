@@ -693,13 +693,106 @@ This is significantly better than the n-1 = 999,999 questions needed with "Yes/N
 
 ## Q5. Convex Hull Implementation
 
-**(SKIPPED as per assignment instructions - this is the last question)**
+### Problem Description
+
+Given a set of 2D points, find the convex hull - the smallest convex polygon that contains all the points.
+
+### Algorithm: Graham's Scan
+
+**Graham's Scan** is an efficient algorithm for computing the convex hull of a set of points in the plane.
+
+**Time Complexity:** O(n log n)  
+**Space Complexity:** O(n)
+
+### Algorithm Steps
+
+1. **Sort Points**: Sort all points lexicographically (first by x-coordinate, then by y-coordinate)
+
+2. **Build Lower Hull**:
+   - Iterate through sorted points from left to right
+   - For each point, remove points from the hull that would create a clockwise turn
+   - Add the current point to the hull
+
+3. **Build Upper Hull**:
+   - Iterate through sorted points from right to left
+   - For each point, remove points from the hull that would create a clockwise turn
+   - Add the current point to the hull
+
+4. **Combine**: Concatenate lower and upper hulls (removing duplicate endpoints)
+
+### Cross Product Test
+
+To determine if three points make a counter-clockwise turn:
+```
+cross_product(O, A, B) = (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x)
+```
+- Positive: counter-clockwise turn
+- Negative: clockwise turn
+- Zero: collinear points
+
+### Implementation
+
+Both Python and Java implementations are provided:
+
+**Python**: `templates_assign2/[studentNumber]_python/ConvexHull.py`  
+**Java**: `templates_assign2/[studentNumber]_java/ConvexHull.java`
+
+### Test Results
+
+#### Input: point_sets_20.txt
+- **Input**: 20 points
+- **Output**: 9 points on convex hull
+- **Hull Points** (in counter-clockwise order):
+  ```
+  (-60, -27), (-23, -59), (5, -34), (21, -4), (37, 29),
+  (-27, 56), (-50, 42), (-51, 41), (-59, -13)
+  ```
+
+#### Input: point_sets_50.txt
+- **Input**: 50 points
+- **Output**: 11 points on convex hull
+- **Hull Points** (in counter-clockwise order):
+  ```
+  (-59, -23), (-53, -47), (-4, -58), (50, -58), (55, -51),
+  (56, -25), (55, 0), (52, 31), (46, 56), (-10, 57), (-36, 31)
+  ```
+
+### Complexity Analysis
+
+**Time Complexity**: O(n log n)
+- Sorting: O(n log n)
+- Building lower hull: O(n)
+- Building upper hull: O(n)
+- Overall: O(n log n)
+
+**Space Complexity**: O(n)
+- Storing sorted points: O(n)
+- Storing hull points: O(h) where h ≤ n
+
+### Why Graham's Scan?
+
+Graham's Scan was chosen for its:
+1. **Optimal time complexity**: O(n log n) is optimal for comparison-based convex hull algorithms
+2. **Simplicity**: Easy to implement and understand
+3. **Robustness**: Handles edge cases (collinear points, duplicate points) well
+4. **Efficiency**: Single pass through sorted points for each hull
+
+### Alternative Algorithms
+
+Other convex hull algorithms include:
+- **Jarvis March (Gift Wrapping)**: O(nh) time, where h is hull size
+- **QuickHull**: O(n log n) average, O(n²) worst case
+- **Chan's Algorithm**: O(n log h) time, optimal output-sensitive
+- **Monotone Chain**: Similar to Graham's Scan, O(n log n)
 
 ---
 
 ## Summary
 
-This document contains solutions to Questions 1, 2, 3 (Bonus), and 4 of Assignment 2. Question 5 (Convex Hull) was skipped as the last question per the assignment instructions.
-
-The bonus question (Q3) provides a comprehensive analysis of the QuickSelect algorithm, including average-case and worst-case complexity analysis, recurrence relations, proofs, and comparisons with other selection algorithms.
+This document contains complete solutions to all Questions 1-5 of Assignment 2:
+- **Q1**: Tower of Hanoi algorithm analysis
+- **Q2**: StoogeSort recurrence relations and proofs
+- **Q3**: QuickSelect (Bonus) complexity analysis
+- **Q4**: Adversarial search bounds
+- **Q5**: Convex Hull implementation using Graham's Scan
 
