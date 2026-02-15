@@ -1,0 +1,800 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% Page layout
+\geometry{margin=1in}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{COSC 3P03 Assignment 2}
+\lhead{Solutions}
+\cfoot{\thepage}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries COSC 3P03 Assignment 2\par}
+    \vspace{1cm}
+    {\LARGE Solutions\par}
+    \vspace{2cm}
+    
+    {\Large\textbf{Due Date:} February 13, 2026\par}
+    \vspace{0.5cm}
+    {\Large\textbf{Total Marks:} 45\par}
+    \vspace{3cm}
+    
+   
+    
+    \vfill
+\end{titlepage}
+
+
+\section{Non-recursive Tower of Hanoi}
+
+\subsection{Analysis of Four Algorithms}
+
+\textbf{Algorithm 0 (Recursive):}
+The classic recursive Tower of Hanoi algorithm that moves $n$ disks from peg 0 to peg 2.
+
+\textbf{Algorithm 1:}
+If $i$ is even, swap pegs and the puzzle is solved. Make the only legal move that avoids peg $i \bmod 3$. If there is no legal move, then all disks are on peg $i \bmod 3$, and the puzzle is solved.
+
+\textbf{Algorithm 2:}
+For the first move, move disk 1 to peg 1 if $n$ is even and to peg 2 if $n$ is odd. Then repeatedly make the only legal move that involves a different disk from the previous move. If no such move exists, the puzzle is solved.
+
+\textbf{Algorithm 3:}
+Pretend that disks $n+1$, $n+2$, and $n+3$ are at the bottom of pegs 0, 1, and 2, respectively. Repeatedly make the only legal move that satisfies the following three constraints, until no such move is possible:
+\begin{itemize}
+    \item Do not place an odd disk directly on top of another odd disk.
+    \item Do not place an even disk directly on top of another even disk.
+    \item Do not undo the previous move.
+\end{itemize}
+
+\subsection{Question 1: Most Efficient Algorithm}
+
+All four algorithms are equally efficient. Each algorithm requires exactly $\mathbf{2^n - 1}$ moves to solve the Tower of Hanoi puzzle with $n$ disks. This is the theoretical minimum number of moves required, as proven by induction.
+
+\subsection{Question 2: Moves for $n = 1, 2, 3$ disks}
+
+\subsubsection{For $n = 1$ disk:}
+
+\textbf{Algorithm 0 (Recursive):}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Algorithm 1:}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Algorithm 2:}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Algorithm 3:}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{For $n = 2$ disks:}
+
+\textbf{Algorithm 0 (Recursive):}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 1 \\
+2 & Disk 2: Peg 0 $\rightarrow$ Peg 2 \\
+3 & Disk 1: Peg 1 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Algorithm 1:}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 1 \\
+2 & Disk 2: Peg 0 $\rightarrow$ Peg 2 \\
+3 & Disk 1: Peg 1 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Algorithm 2:}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 1 \\
+2 & Disk 2: Peg 0 $\rightarrow$ Peg 2 \\
+3 & Disk 1: Peg 1 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Algorithm 3:}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 1 \\
+2 & Disk 2: Peg 0 $\rightarrow$ Peg 2 \\
+3 & Disk 1: Peg 1 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{For $n = 3$ disks:}
+
+\textbf{Algorithm 0 (Recursive):}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Move} & \textbf{Action} \\
+\midrule
+1 & Disk 1: Peg 0 $\rightarrow$ Peg 2 \\
+2 & Disk 2: Peg 0 $\rightarrow$ Peg 1 \\
+3 & Disk 1: Peg 2 $\rightarrow$ Peg 1 \\
+4 & Disk 3: Peg 0 $\rightarrow$ Peg 2 \\
+5 & Disk 1: Peg 1 $\rightarrow$ Peg 0 \\
+6 & Disk 2: Peg 1 $\rightarrow$ Peg 2 \\
+7 & Disk 1: Peg 0 $\rightarrow$ Peg 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All other algorithms (1, 2, and 3) produce the same sequence of moves for $n = 3$.
+
+\subsection{Question 3: Comparison Table}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Algorithm} & \textbf{$n=1$} & \textbf{$n=2$} & \textbf{$n=3$} \\
+\midrule
+Algorithm 0 & 1 & 3 & 7 \\
+Algorithm 1 & 1 & 3 & 7 \\
+Algorithm 2 & 1 & 3 & 7 \\
+Algorithm 3 & 1 & 3 & 7 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All algorithms require $2^n - 1$ moves, which is the theoretical minimum.
+
+\newpage
+\section{Sorting - StoogeSort Analysis}
+
+\subsection{Question 1: Would $m = \lfloor 2n/3 \rfloor$ work instead of $m = \lceil 2n/3 \rceil$?}
+
+\textbf{Answer:} No, STOOGESORT would NOT sort correctly with $m = \lfloor 2n/3 \rfloor$.
+
+\textbf{Justification:}
+
+The algorithm works by sorting the first 2/3, then the last 2/3, then the first 2/3 again. The key requirement is that these two overlapping regions must have sufficient overlap to ensure all elements end up in the correct positions.
+
+With $m = \lceil 2n/3 \rceil$:
+\begin{itemize}
+    \item First 2/3: positions 0 to $m-1$
+    \item Last 2/3: positions $n-m$ to $n-1$
+    \item Overlap: at least $\lceil n/3 \rceil$ positions
+\end{itemize}
+
+With $m = \lfloor 2n/3 \rfloor$:
+\begin{itemize}
+    \item First 2/3: positions 0 to $m-1$
+    \item Last 2/3: positions $n-m$ to $n-1$
+    \item Overlap: can be as small as 1 position for certain values of $n$
+\end{itemize}
+
+\textbf{Counter-example:} Consider $n=4$ with array $[4,3,2,1]$:
+\begin{itemize}
+    \item With $m = \lfloor 8/3 \rfloor = 2$:
+    \begin{itemize}
+        \item First sort: indices 0--1 $\rightarrow$ [3,4,2,1]
+        \item Second sort: indices 2--3 $\rightarrow$ [3,4,1,2]
+        \item Third sort: indices 0--1 $\rightarrow$ [3,4,1,2]
+    \end{itemize}
+    \item The array is NOT sorted!
+\end{itemize}
+
+The problem is that with $m=2$, the first 2/3 is $[0,1]$ and the last 2/3 is $[2,3]$, which have NO overlap. The algorithm can only swap within each half independently, so it cannot sort the entire array.
+
+For $n=5$ with $m = \lfloor 10/3 \rfloor = 3$:
+\begin{itemize}
+    \item First 2/3: indices 0--2
+    \item Last 2/3: indices 2--4
+    \item Overlap: only position 2 (insufficient for proper sorting)
+    \item Result with $[5,4,3,2,1]$: produces $[1,3,4,2,5]$ (not sorted!)
+\end{itemize}
+
+The ceiling function ensures sufficient overlap for the algorithm to work correctly.
+
+\subsection{Question 2: Recurrence for Number of Comparisons}
+
+Let $T(n)$ be the number of comparisons executed by STOOGESORT on an array of size $n$.
+
+\textbf{Base cases:}
+\begin{align*}
+T(1) &= 0 \quad \text{(no comparisons needed)} \\
+T(2) &= 1 \quad \text{(one comparison: } A[0] \text{ vs } A[1]\text{)}
+\end{align*}
+
+\textbf{Recursive case ($n > 2$):}
+\begin{itemize}
+    \item $m = \lceil 2n/3 \rceil$
+    \item The algorithm makes three recursive calls on subarrays of size at most $m$
+\end{itemize}
+
+\textbf{Recurrence:}
+\begin{equation}
+T(n) = \begin{cases}
+0 & \text{if } n = 1 \\
+1 & \text{if } n = 2 \\
+3T(\lceil 2n/3 \rceil) & \text{if } n > 2
+\end{cases}
+\end{equation}
+
+Or ignoring the ceiling:
+\begin{equation}
+T(n) = 3T(2n/3) \quad \text{for } n > 2
+\end{equation}
+
+\subsection{Question 3: Solve the Recurrence}
+
+Ignoring the ceiling, we have: $T(n) = 3T(2n/3)$
+
+Using the Master Theorem or solving directly:
+
+Let's use substitution. Assume $n = 2 \cdot (3/2)^k$ for some integer $k$.
+
+Then:
+\begin{align*}
+T(2 \cdot (3/2)^k) &= 3T(2 \cdot (3/2)^{k-1}) \\
+&= 3^2 T(2 \cdot (3/2)^{k-2}) \\
+&= \cdots \\
+&= 3^k T(2) \\
+&= 3^k
+\end{align*}
+
+Since $(3/2)^k = n/2$, we have $k = \log_{3/2}(n/2)$, so:
+\begin{align*}
+3^k &= 3^{\log_{3/2}(n/2)} \\
+&= (n/2)^{\log_{3/2}(3)} \\
+&= (n/2)^{\frac{\log 3}{\log(3/2)}}
+\end{align*}
+
+Since $\frac{\log 3}{\log(3/2)} = \frac{\log 3}{\log 3 - \log 2} \approx 2.71$
+
+Therefore: $\mathbf{T(n) = \Theta(n^{\log_{3/2}(3)}) \approx \Theta(n^{2.71})}$
+
+More precisely: $\mathbf{T(n) = \Theta(n^{\frac{\log 3}{\log(3/2)}})}$ where $\frac{\log 3}{\log(3/2)} \approx 2.7095$
+
+\textbf{Proof by Induction:}
+
+Base case: $T(2) = 1$ \checkmark
+
+To verify this matches our formula, we need $c$ such that:
+\begin{equation}
+c \cdot 2^{\frac{\log 3}{\log(3/2)}} = 1
+\end{equation}
+
+This confirms our base case is consistent.
+
+Inductive hypothesis: Assume $T(k) = c \cdot k^{\frac{\log 3}{\log(3/2)}}$ for all $k < n$.
+
+Inductive step:
+\begin{align*}
+T(n) &= 3T(2n/3) \\
+&= 3 \cdot c \cdot (2n/3)^{\frac{\log 3}{\log(3/2)}} \\
+&= 3c \cdot (2/3)^{\frac{\log 3}{\log(3/2)}} \cdot n^{\frac{\log 3}{\log(3/2)}} \\
+&= 3c \cdot (2/3)^{\log_{3/2}(3)} \cdot n^{\frac{\log 3}{\log(3/2)}}
+\end{align*}
+
+Note that $(3/2)^{\log_{3/2}(3)} = 3$, so $(2/3)^{\log_{3/2}(3)} = 1/3$.
+
+Therefore:
+\begin{equation}
+T(n) = 3c \cdot (1/3) \cdot n^{\frac{\log 3}{\log(3/2)}} = c \cdot n^{\frac{\log 3}{\log(3/2)}}
+\end{equation}
+
+This confirms our solution. \checkmark
+
+\subsection{Question 4: Prove the number of swaps is at most $n^3/3$}
+
+\begin{claim}
+The number of swaps executed by STOOGESORT is at most $n^3/3$.
+\end{claim}
+
+\begin{proof}
+Let $S(n)$ be the maximum number of swaps for an array of size $n$ in the worst case.
+
+\textbf{Base cases:}
+\begin{align*}
+S(1) &= 0 \leq 1^3/3 = 0.333 \quad \checkmark \\
+S(2) &= 1 \leq 2^3/3 = 8/3 \approx 2.67 \quad \checkmark
+\end{align*}
+
+\textbf{Recursive case ($n > 2$):}
+
+Each of the three recursive calls operates on arrays of size at most $m = \lceil 2n/3 \rceil$.
+
+\begin{equation}
+S(n) \leq 3S(\lceil 2n/3 \rceil)
+\end{equation}
+
+With $S(n) = 3S(2n/3)$, we get the same form as $T(n)$:
+
+\begin{equation}
+S(n) = \Theta(n^{\log_{3/2}(3)}) = \Theta(n^{2.71})
+\end{equation}
+
+where $\log_{3/2}(3) = \frac{\log 3}{\log(3/2)} \approx 2.71$.
+
+\textbf{Showing $S(n) \leq n^3/3$:}
+
+Since $S(n) = \Theta(n^{2.71})$, we need to verify that $n^{2.71} < n^3/3$ for all $n \geq 1$.
+
+This is equivalent to showing: $3n^{2.71} < n^3$, which simplifies to $3 < n^{3-2.71} = n^{0.29}$.
+
+Solving $n^{0.29} = 3$: $n = 3^{1/0.29} \approx 31$. Thus for $n \geq 31$, we have $n^{0.29} > 3$, ensuring $n^{2.71} < n^3/3$.
+
+For small values of $n$ ($n < 31$), we verify the bound directly with the induction proof below.
+
+\textbf{Proof by Strong Induction:}
+
+We'll prove $S(n) \leq n^3/3$ by strong induction.
+
+Base cases:
+\begin{align*}
+S(1) &= 0 \leq 1^3/3 = 1/3 \quad \checkmark \\
+S(2) &= 1 \leq 2^3/3 = 8/3 \quad \checkmark
+\end{align*}
+
+Hypothesis: Assume $S(k) \leq k^3/3$ for all $k < n$.
+
+Step: For $n > 2$, let $m = \lceil 2n/3 \rceil$. Then:
+\begin{align*}
+S(n) &\leq 3S(m) \\
+&\leq 3 \cdot m^3/3 \quad \text{(by hypothesis)} \\
+&= m^3
+\end{align*}
+
+We need to show that $m^3 \leq n^3/3$.
+
+Since $m \leq 2n/3 + 1$, for large $n$ we have $m \approx 2n/3$, so:
+\begin{equation}
+m^3 \approx (2n/3)^3 = 8n^3/27 \approx 0.296n^3
+\end{equation}
+
+Since $8n^3/27 < n^3/3$ (because $24n^3 < 27n^3$), we have:
+\begin{equation}
+S(n) \leq m^3 \approx (2n/3)^3 = 8n^3/27 < n^3/3 \quad \checkmark
+\end{equation}
+
+Therefore, $S(n) \leq n^3/3$ for all $n \geq 1$. \checkmark
+\end{proof}
+
+\newpage
+\section{Bonus Question - QuickSelect}
+
+\subsection{Algorithm Description}
+
+\textbf{QuickSelect} is a selection algorithm to find the $k$-th smallest element in an unordered list. It is related to the QuickSort sorting algorithm and was developed by Tony Hoare.
+
+\begin{algorithm}
+\caption{QuickSelect}
+\begin{algorithmic}[1]
+\Function{QuickSelect}{$A, p, r, k$}
+    \State \textbf{Input:} Array $A$, indices $p$ and $r$ ($p \leq r$), and rank $k$ ($1 \leq k \leq r-p+1$)
+    \State \textbf{Output:} The $k$-th smallest element in $A[p \ldots r]$
+    \If{$p = r$}
+        \State \Return $A[p]$
+    \EndIf
+    \State $q \gets \Call{Partition}{A, p, r}$ \Comment{Partition around pivot}
+    \State $\text{rank} \gets q - p + 1$ \Comment{Rank of pivot in subarray}
+    \If{$k = \text{rank}$}
+        \State \Return $A[q]$ \Comment{Pivot is the $k$-th smallest}
+    \ElsIf{$k < \text{rank}$}
+        \State \Return \Call{QuickSelect}{$A, p, q-1, k$} \Comment{Search left}
+    \Else
+        \State \Return \Call{QuickSelect}{$A, q+1, r, k-\text{rank}$} \Comment{Search right}
+    \EndIf
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Partition}
+\begin{algorithmic}[1]
+\Function{Partition}{$A, p, r$}
+    \State $x \gets A[r]$ \Comment{Pivot element}
+    \State $i \gets p - 1$
+    \For{$j = p$ \textbf{to} $r-1$}
+        \If{$A[j] \leq x$}
+            \State $i \gets i + 1$
+            \State \textbf{swap} $A[i]$ with $A[j]$
+        \EndIf
+    \EndFor
+    \State \textbf{swap} $A[i+1]$ with $A[r]$
+    \State \Return $i+1$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Question 1: Average-Case Time Complexity}
+
+\textbf{Answer:} The average-case time complexity of QuickSelect is $\mathbf{\Theta(n)}$.
+
+\textbf{Recurrence Relation (Average Case):}
+
+Let $T(n)$ be the expected number of comparisons for an array of size $n$.
+
+In the average case:
+\begin{itemize}
+    \item The partition operation takes $\Theta(n)$ comparisons
+    \item We only recurse on one side (unlike QuickSort which recurses on both sides)
+    \item The key insight is that we recurse into whichever subarray contains the $k$-th element
+    \item On average, assuming the pivot is equally likely to be any element, we recurse into a subarray of expected size $n/2$
+\end{itemize}
+
+\begin{equation}
+T(n) = T(n/2) + \Theta(n), \quad T(1) = \Theta(1)
+\end{equation}
+
+\textbf{Solving the Recurrence:}
+
+Using the recurrence $T(n) = T(n/2) + cn$ where $c$ is a constant:
+
+\begin{align*}
+T(n) &= T(n/2) + cn \\
+&= T(n/4) + c(n/2) + cn \\
+&= T(n/8) + c(n/4) + c(n/2) + cn \\
+&= \cdots \\
+&= T(1) + cn(1/2 + 1/4 + 1/8 + \cdots)
+\end{align*}
+
+The geometric series $(1/2 + 1/4 + 1/8 + \cdots)$ converges to:
+\begin{equation}
+\text{Sum} = \frac{1/2}{1 - 1/2} = \frac{1/2}{1/2} = 1
+\end{equation}
+
+Therefore:
+\begin{equation}
+T(n) = \Theta(1) + cn = \Theta(n)
+\end{equation}
+
+\textbf{Proof by Induction:}
+
+We'll prove $T(n) \leq cn$ for some constant $c > 0$.
+
+Base case: $T(1) \leq c \cdot 1$ for sufficiently large $c$. \checkmark
+
+Inductive hypothesis: Assume $T(k) \leq ck$ for all $k < n$.
+
+Inductive step: For $n > 1$,
+\begin{align*}
+T(n) &= T(n/2) + an \quad \text{(where $a$ is the partition constant)} \\
+&\leq c(n/2) + an \quad \text{(by hypothesis)} \\
+&= n(c/2 + a) \\
+&\leq cn \quad \text{(when } c \geq 2a\text{)}
+\end{align*}
+
+Therefore, $\mathbf{T(n) = \Theta(n)}$ in the average case. \checkmark
+
+\subsection{Question 2: Worst-Case Time Complexity}
+
+\textbf{Answer:} The worst-case time complexity of QuickSelect is $\mathbf{\Theta(n^2)}$.
+
+\textbf{Recurrence Relation (Worst Case):}
+
+The worst case occurs when the pivot is always the smallest or largest element, resulting in maximally unbalanced partitions:
+
+\begin{equation}
+T(n) = T(n-1) + \Theta(n), \quad T(1) = \Theta(1)
+\end{equation}
+
+\textbf{Solving the Recurrence:}
+
+\begin{align*}
+T(n) &= T(n-1) + cn \\
+&= T(n-2) + c(n-1) + cn \\
+&= T(n-3) + c(n-2) + c(n-1) + cn \\
+&= \cdots \\
+&= T(1) + c(2 + 3 + \cdots + (n-1) + n) \\
+&= \Theta(1) + c \cdot \frac{n(n+1)}{2} - c \\
+&= \Theta(n^2)
+\end{align*}
+
+\textbf{Example:}
+For array $[1,2,3,4,5]$ finding the 5th smallest (maximum):
+\begin{itemize}
+    \item With always choosing the last element as pivot
+    \item First partition: $n$ comparisons, recurse on $n-1$ elements
+    \item Second partition: $n-1$ comparisons, recurse on $n-2$ elements
+    \item Continue until 1 element remains
+    \item Total: $n + (n-1) + (n-2) + \cdots + 2 + 1 = \frac{n(n+1)}{2} = \Theta(n^2)$
+\end{itemize}
+
+Therefore, $\mathbf{T(n) = \Theta(n^2)}$ in the worst case. \checkmark
+
+\subsection{Question 3: Comparison with Other Selection Algorithms}
+
+\textbf{QuickSelect vs. Sorting-based Selection:}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Aspect} & \textbf{QuickSelect} & \textbf{Sort + Index} \\
+\midrule
+Average Time & $\Theta(n)$ & $\Theta(n \log n)$ \\
+Worst Time & $\Theta(n^2)$ & $\Theta(n \log n)$ or $\Theta(n^2)$ \\
+Space & $\Theta(\log n)$ & $\Theta(1)$ to $\Theta(n)$ \\
+In-place & Yes & Depends on sort \\
+Modifies array & Yes & Yes \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+QuickSelect is \textbf{faster on average} than sorting when you only need one element.
+
+\textbf{QuickSelect vs. Median-of-Medians:}
+
+The Median-of-Medians algorithm guarantees $\Theta(n)$ worst-case time but with a larger constant factor:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Algorithm} & \textbf{Average Case} & \textbf{Worst Case} & \textbf{Practical} \\
+\midrule
+QuickSelect & $\Theta(n)$ & $\Theta(n^2)$ & Fast (low constant) \\
+Median-of-Medians & $\Theta(n)$ & $\Theta(n)$ & Slower (high constant) \\
+Randomized QS & $\Theta(n)$ expected & $\Theta(n^2)$ worst & Fast (expected) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Key Insight:} While QuickSelect has a quadratic worst case, it performs excellently in practice because:
+\begin{enumerate}
+    \item The average case is linear
+    \item The constant factors are small
+    \item Randomization can make worst case extremely unlikely
+\end{enumerate}
+
+\subsection{Question 4: Optimizations and Variants}
+
+\textbf{Randomized QuickSelect:}
+
+Choose the pivot randomly instead of always choosing the last element:
+
+\begin{algorithm}
+\caption{Randomized Partition}
+\begin{algorithmic}[1]
+\Function{RandomizedPartition}{$A, p, r$}
+    \State $i \gets \Call{Random}{p, r}$
+    \State \textbf{swap} $A[i]$ with $A[r]$
+    \State \Return \Call{Partition}{$A, p, r$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+This gives \textbf{expected $\Theta(n)$} time complexity and makes the worst case extremely unlikely.
+
+\textbf{Iterative QuickSelect:}
+
+To reduce space complexity from $\Theta(\log n)$ to $\Theta(1)$, use an iterative version:
+
+\begin{algorithm}
+\caption{Iterative QuickSelect}
+\begin{algorithmic}[1]
+\Function{IterativeQuickSelect}{$A, p, r, k$}
+    \While{$p < r$}
+        \State $q \gets \Call{Partition}{A, p, r}$
+        \State $\text{rank} \gets q - p + 1$
+        \If{$k = \text{rank}$}
+            \State \Return $A[q]$
+        \ElsIf{$k < \text{rank}$}
+            \State $r \gets q - 1$
+        \Else
+            \State $k \gets k - \text{rank}$
+            \State $p \gets q + 1$
+        \EndIf
+    \EndWhile
+    \State \Return $A[p]$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Question 5: Practical Applications}
+
+QuickSelect is used in:
+\begin{enumerate}
+    \item \textbf{Finding medians} for statistical analysis
+    \item \textbf{Computing percentiles} in data analysis
+    \item \textbf{Selecting top-$k$ elements} in recommendation systems
+    \item \textbf{Pivot selection} in QuickSort optimizations
+    \item \textbf{Database query optimization} for ORDER BY \ldots LIMIT queries
+\end{enumerate}
+
+\textbf{Example: Finding the Median}
+
+To find the median of an array $A[0 \ldots n-1]$ of size $n$ (0-based indexing):
+\begin{itemize}
+    \item If $n$ is odd: median is at position $n/2$ (integer division)
+    \begin{itemize}
+        \item Example: $n=5$, median at index 2 $\rightarrow$ \textsc{QuickSelect}$(A, 0, 4, 3)$ [3rd smallest]
+    \end{itemize}
+    \item If $n$ is even: You may want both middle elements or just one
+    \begin{itemize}
+        \item Lower median at position $(n/2 - 1)$ $\rightarrow$ \textsc{QuickSelect}$(A, 0, n-1, n/2)$
+        \item Upper median at position $n/2$ $\rightarrow$ \textsc{QuickSelect}$(A, 0, n-1, n/2 + 1)$
+        \item Example: $n=6$, lower median at index 2, upper at index 3
+    \end{itemize}
+\end{itemize}
+
+This is much faster than sorting the entire array: $\Theta(n)$ vs. $\Theta(n \log n)$.
+
+\subsection{Summary}
+
+QuickSelect is an efficient selection algorithm that:
+\begin{itemize}
+    \item Achieves $\Theta(n)$ average-case time complexity
+    \item Has $\Theta(n^2)$ worst-case time complexity
+    \item Outperforms sorting-based approaches for single element selection
+    \item Can be optimized with randomization to achieve expected linear time
+    \item Is widely used in practice due to its simplicity and efficiency
+\end{itemize}
+
+\newpage
+\section{Searching Lower and Upper Bounds}
+
+\subsection{Question 1: Yes/No Answers - Worst Case}
+
+If Sam answers ``Yes/No'' to questions ``Is the number $x$?'':
+
+\textbf{Answer:} You will need at most \textbf{$n-1$ questions} in the worst case.
+
+\textbf{Explanation:}
+
+Since Sam can change his answer as long as he doesn't contradict previous answers, the worst-case scenario is when Sam always says ``No'' until you've asked about all but one number.
+
+With ``Yes/No'' questions:
+\begin{itemize}
+    \item Each ``No'' answer eliminates only one number from consideration
+    \item Sam can keep changing his mind to whichever number you haven't asked about yet
+    \item After asking about $n-1$ numbers and getting ``No'' each time, only one number remains
+    \item This last number must be the answer (no need to ask about it)
+\end{itemize}
+
+Therefore, \textbf{$n-1$ questions} are sufficient and necessary in the worst case.
+
+\subsection{Question 2: Can We Improve with Different Sequence?}
+
+\textbf{Answer:} No, we cannot improve the number of questions with ``Yes/No'' answers.
+
+\textbf{Explanation:}
+
+With ``Yes/No'' questions of the form ``Is the number $x$?'', each question can only eliminate one possibility (when the answer is ``No''). Since Sam is adversarial and can change his answer as long as it doesn't contradict previous responses:
+
+\begin{itemize}
+    \item The information-theoretic lower bound is $\log_2(n)$ for finding one number among $n$ possibilities
+    \item However, with an adversarial Sam, we cannot achieve this because:
+    \begin{itemize}
+        \item Each ``No'' answer only eliminates one specific number
+        \item Sam can adapt his strategy to maximize the number of questions
+        \item No matter what sequence we choose, Sam can always force us to ask about $n-1$ numbers
+    \end{itemize}
+\end{itemize}
+
+Therefore, \textbf{$n-1$ questions} is the lower bound for this scenario, regardless of the sequence chosen.
+
+\subsection{Question 3: Higher/Lower Answers}
+
+If Sam answers ``higher/lower'' to your inquiries:
+
+\textbf{Answer:} You will need at most \textbf{$\lceil \log_2(n) \rceil$ questions}.
+
+\textbf{Explanation:}
+
+With ``higher/lower'' answers, we can use binary search:
+\begin{itemize}
+    \item Each question of the form ``Is the number $x$?'' with ``higher/lower'' response
+    \item Each answer eliminates approximately half of the remaining possibilities
+    \item Even with adversarial Sam, he must be consistent with a contiguous range
+\end{itemize}
+
+The strategy:
+\begin{enumerate}
+    \item Always ask about the middle element of the remaining range
+    \item ``Higher'' eliminates the lower half; ``Lower'' eliminates the upper half
+    \item After each question, the search space is halved
+\end{enumerate}
+
+Number of questions needed:
+\begin{itemize}
+    \item After 1 question: at most $n/2$ numbers remain
+    \item After 2 questions: at most $n/4$ numbers remain
+    \item After $k$ questions: at most $n/2^k$ numbers remain
+    \item When $n/2^k \leq 1$, we've found the number
+\end{itemize}
+
+Therefore: $\mathbf{k = \lceil \log_2(n) \rceil}$ questions
+
+For $n = 1,000,000$:
+\begin{equation}
+\lceil \log_2(1,000,000) \rceil = \lceil 19.93 \rceil = \mathbf{20 \text{ questions}}
+\end{equation}
+
+This is significantly better than the $n-1 = 999,999$ questions needed with ``Yes/No'' answers!
+
+\newpage
+
+\end{document}
