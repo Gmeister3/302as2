@@ -74,18 +74,18 @@ public class ConvexHull {
      */
     static List<Point> readPointsFromFile(String filename) throws IOException {
         List<Point> points = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(filename));
         
-        int n = Integer.parseInt(br.readLine().trim());
-        for (int i = 0; i < n; i++) {
-            String line = br.readLine().trim();
-            String[] parts = line.split("\\s+");
-            int x = Integer.parseInt(parts[0]);
-            int y = Integer.parseInt(parts[1]);
-            points.add(new Point(x, y));
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            int n = Integer.parseInt(br.readLine().trim());
+            for (int i = 0; i < n; i++) {
+                String line = br.readLine().trim();
+                String[] parts = line.split("\\s+");
+                int x = Integer.parseInt(parts[0]);
+                int y = Integer.parseInt(parts[1]);
+                points.add(new Point(x, y));
+            }
         }
         
-        br.close();
         return points;
     }
     
@@ -93,14 +93,12 @@ public class ConvexHull {
      * Write convex hull to output file.
      */
     static void writeHullToFile(List<Point> hull, String outputFilename) throws IOException {
-        PrintWriter pw = new PrintWriter(new FileWriter(outputFilename));
-        
-        pw.println(hull.size());
-        for (Point p : hull) {
-            pw.println(p);
+        try (PrintWriter pw = new PrintWriter(new FileWriter(outputFilename))) {
+            pw.println(hull.size());
+            for (Point p : hull) {
+                pw.println(p);
+            }
         }
-        
-        pw.close();
     }
     
     public static void main(String[] args) {

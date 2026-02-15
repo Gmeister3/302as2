@@ -71,19 +71,26 @@ if __name__ == "__main__":
         sys.exit(1)
     
     for input_file in sys.argv[1:]:
-        print(f"Processing: {input_file}")
-        
-        # Read points
-        points = read_points_from_file(input_file)
-        
-        # Compute convex hull
-        hull = convex_hull(points)
-        
-        # Generate output filename
-        base_name = os.path.splitext(os.path.basename(input_file))[0]
-        output_file = os.path.join("outputs", f"output_{base_name}.txt")
-        
-        # Write output
-        write_hull_to_file(hull, output_file)
-        
-        print(f"Convex hull with {len(hull)} points written to {output_file}")
+        try:
+            print(f"Processing: {input_file}")
+            
+            # Read points
+            points = read_points_from_file(input_file)
+            
+            # Compute convex hull
+            hull = convex_hull(points)
+            
+            # Generate output filename
+            base_name = os.path.splitext(os.path.basename(input_file))[0]
+            output_file = os.path.join("outputs", f"output_{base_name}.txt")
+            
+            # Write output
+            write_hull_to_file(hull, output_file)
+            
+            print(f"Convex hull with {len(hull)} points written to {output_file}")
+        except FileNotFoundError:
+            print(f"Error: Input file '{input_file}' not found", file=sys.stderr)
+        except ValueError as e:
+            print(f"Error: Invalid data format in '{input_file}': {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"Error processing '{input_file}': {e}", file=sys.stderr)
