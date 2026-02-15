@@ -5,7 +5,9 @@ This repository contains the solutions for COSC 3P03 Assignment 2.
 ## Contents
 
 - `as2.pdf` - Original assignment document
-- `assignment2_solutions.md` - Complete solutions for Q1, Q2, Q3, and Q4
+- `assignment2_solutions.md` - Complete solutions for Q1, Q2, Q3, and Q4 (Markdown format)
+- `assignment2_solutions.tex` - Complete solutions in LaTeX format
+- `assignment2_solutions.pdf` - Compiled PDF from LaTeX source (15 pages, professional formatting)
 
 ## Questions Completed
 
@@ -20,4 +22,6 @@ This repository contains the solutions for COSC 3P03 Assignment 2.
 
 ## Viewing Solutions
 
-Open `assignment2_solutions.md` to view the complete solutions with detailed explanations, proofs, and examples.
+- **Markdown Format**: Open `assignment2_solutions.md` to view the complete solutions with detailed explanations, proofs, and examples.
+- **PDF Format**: Open `assignment2_solutions.pdf` for a professionally formatted PDF document with proper mathematical typesetting.
+- **LaTeX Source**: The LaTeX source is available in `assignment2_solutions.tex` and can be recompiled if needed.
