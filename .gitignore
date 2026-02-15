@@ -33,3 +33,6 @@ Thumbs.db
 *.ind
 *.lof
 *.lot
+
+# Generated output files
+7561517_java/outputs/

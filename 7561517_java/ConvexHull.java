@@ -109,6 +109,9 @@ public class ConvexHull {
                 String baseName = new File(inputFile).getName().replace(".txt", "");
                 String outputFile = "outputs/output_" + baseName + ".txt";
 
+                // Create outputs directory if it doesn't exist
+                new File("outputs").mkdirs();
+
                 // Write output
                 writeHullToFileGregorySampson(hull, outputFile);
 
