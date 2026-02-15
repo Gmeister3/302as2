@@ -43,7 +43,7 @@ def compare_files(file1, file2, name):
         return False
 
 def main():
-    repo_root = Path('/home/runner/work/302as2/302as2')
+    repo_root = Path(__file__).parent.absolute()
     zip_file = repo_root / "templates_assign2 (1).zip"
     reference_dir = repo_root / "templates_assign2"
     
